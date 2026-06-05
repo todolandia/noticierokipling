@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Galería de Videojuegos Scratch | SERK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f5f7fb;
+            color: #1e2a3e;
+            line-height: 1.5;
+        }
+
+        /* Encabezado estilo escolar */
+        .top-bar {
+            background-color: #0b2b3b;
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 0.9rem;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .main-header {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #e0a800;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .logo-area h1 {
+            font-size: 1.9rem;
+            color: #0b2b3b;
+            margin-bottom: 0.25rem;
+        }
+
+        .logo-area p {
+            color: #4a627a;
+            font-size: 1rem;
+        }
+
+        .subhead {
+            background-color: #eef2f7;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+            color: #1e4663;
+            border-bottom: 1px solid #dce4ec;
+        }
+
+        /* Contenedor principal de juegos - estilo cuadrícula */
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Tarjeta del juego (acceso directo) */
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.03);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #d9e2ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: scale 0.2s;
+        }
+
+        .game-card:hover .thumbnail img {
+            scale: 1.02;
+        }
+
+        /* Placeholder si no hay imagen real */
+        .no-img {
+            background: linear-gradient(135deg, #2c5f8a, #1e3a5f);
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-info {
+            padding: 1.25rem 1rem 1.5rem;
+        }
+
+        .game-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #0b2b3b;
+        }
+
+        .game-author {
+            font-size: 0.85rem;
+            color: #e0a800;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .game-description {
+            color: #3a546d;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        /* Botón simulado dentro de la tarjeta */
+        .play-hint {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #1e6f5c;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Pie de página tipo anuario */
+        .footer {
+            background-color: #0b2b3b;
+            color: #cddfe7;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            border-top: 3px solid #e0a800;
+        }
+
+        .footer p {
+            margin: 0.3rem 0;
+        }
+
+        .footer a {
+            color: #ffcd4a;
+            text-decoration: none;
+        }
+
+        /* Mensaje si no hay juegos (solo por si acaso) */
+        .empty-message {
+            text-align: center;
+            padding: 4rem;
+            background: #f8fafc;
+            border-radius: 32px;
+            color: #5b7a9a;
+        }
+
+        @media (max-width: 640px) {
+            .main-header h1 {
+                font-size: 1.5rem;
+            }
+            .games-grid {
+                gap: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    ✨ Creatividad, Lógica y Diversión | Taller de Programación con Scratch
+</div>
+
+<header class="main-header">
+    <div class="logo-area">
+        <h1>🎮 Galería de Videojuegos</h1>
+        <p>Sistema Educativo Rudyard Kipling | Proyectos de alumnos en Scratch</p>
+    </div>
+</header>
+
+<div class="subhead">
+    ⚡ Haz clic en cualquier juego para abrirlo en una nueva ventana y jugar directamente desde Scratch
+</div>
+
+<main class="container">
+    <div class="games-grid" id="gamesContainer">
+        <!-- Los juegos se cargarán dinámicamente con JavaScript 
+             pero también se muestran estáticamente como ejemplo.
+             Puedes modificar el array 'juegos' más abajo. -->
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Sistema Educativo Rudyard Kipling — Fomento a la programación y pensamiento computacional</p>
+    <p>Proyectos realizados en Scratch por alumnos de primaria y secundaria | <a href="#" target="_blank">Ver directrices del taller</a></p>
+    <p>© 2025 · Anuario de videojuegos interactivos</p>
+</footer>
+
+<script>
+    // --------------------------------------------------------------
+    // LISTA DE VIDEOJUEGOS HECHOS EN SCRATCH POR TUS ALUMNOS
+    // Aquí debes reemplazar los datos con los de tus estudiantes.
+    // Cada objeto requiere:
+    // - titulo: nombre del juego
+    // - autor: nombre del alumno o equipo
+    // - descripcion: breve texto
+    // - miniaturaUrl: ruta de la imagen (puede ser local o externa)
+    // - urlJuego: enlace directo al proyecto de Scratch (ej: https://scratch.mit.edu/projects/123456789)
+    // --------------------------------------------------------------
+    const juegos = [
+        {
+            titulo: "Aventura en el laberinto",
+            autor: "Valentina López",
+            descripcion: "Guía al personaje a través de un laberinto lleno de trampas y recolecta estrellas.",
+            miniaturaUrl: "https://placehold.co/600x400/2c5f8a/white?text=Laberinto+Scratch",
+            urlJuego: "https://scratch.mit.edu/projects/example1"   // Cambia por el enlace real
+        },
+        {
+            titulo: "El dragón y el tesoro",
+            autor: "Mateo Hernández",
+            descripcion: "Juego de plataformas donde esquivas fuego y llegas al cofre dorado.",
+            miniaturaUrl: "https://placehold.co/600x400/5f4c2c/white?text=Dragon+Game",
+            urlJuego: "https://scratch.mit.edu/projects/example2"
+        },
+        {
+            titulo: "Space Defender",
+            autor: "Equipo Galáctico (Ana, Luis, Sofía)",
+            descripcion: "Defiende la Tierra de meteoritos y naves enemigas. ¡Alto a la invasión!",
+            miniaturaUrl: "https://placehold.co/600x400/1e3a5f/white?text=Space+Defender",
+            urlJuego: "https://scratch.mit.edu/projects/example3"
+        },
+        {
+            titulo: "Quiz Matemático",
+            autor: "Diego Ramírez",
+            descripcion: "Preguntas de suma, resta y multiplicación. Gana puntos por respuestas correctas.",
+            miniaturaUrl: "https://placehold.co/600x400/2b5e3b/white?text=Quiz+Matem%C3%A1tico",
+            urlJuego: "https://scratch.mit.edu/projects/example4"
+        },
+        {
+            titulo: "Carrera de animales",
+            autor: "Camila Torres",
+            descripcion: "Elige tu animal favorito y corre hasta la meta. ¡Presiona espacio para acelerar!",
+            miniaturaUrl: "https://placehold.co/600x400/a5511c/white?text=Carrera+Animales",
+            urlJuego: "https://scratch.mit.edu/projects/example5"
+        },
+        {
+            titulo: "Futbolín de sobremesa",
+            autor: "Grupo 6°A",
+            descripcion: "Juego para dos jugadores. Controla los palos y anota goles.",
+            miniaturaUrl: "https://placehold.co/600x400/2f6690/white?text=Futbol%C3%ADn+Scratch",
+            urlJuego: "https://scratch.mit.edu/projects/example6"
+        }
+    ];
+
+    // También puedes agregar más juegos directamente en este arreglo.
+    // Si quieres usar imágenes reales, sube los thumbnails a tu servidor 
+    // o usa enlaces directos (ej: "imagenes/miJuego.png").
+    // Para enlaces de Scratch real: asegúrate de que sean públicos.
+
+    const container = document.getElementById("gamesContainer");
+
+    function crearTarjeta(juego) {
+        // Crear elemento <a> que funcionará como enlace directo
+        const cardLink = document.createElement("a");
+        cardLink.className = "game-card";
+        cardLink.href = juego.urlJuego;
+        cardLink.target = "_blank";      // Abrir en nueva pestaña
+        cardLink.rel = "noopener noreferrer";
+
+        // Contenedor de miniatura
+        const thumbDiv = document.createElement("div");
+        thumbDiv.className = "thumbnail";
+        
+        // Si la imagen falla, mostrar un placeholder con el título
+        const img = document.createElement("img");
+        img.src = juego.miniaturaUrl;
+        img.alt = `Miniatura de ${juego.titulo}`;
+        img.loading = "lazy";
+        
+        // Mecanismo anti-error: si la imagen no carga, mostrar texto estilizado
+        img.onerror = function() {
+            // Reemplazar el contenido de thumbDiv con un div de respaldo
+            const fallbackDiv = document.createElement("div");
+            fallbackDiv.className = "no-img";
+            fallbackDiv.textContent = juego.titulo.charAt(0).toUpperCase(); // Letra inicial
+            thumbDiv.innerHTML = "";
+            thumbDiv.appendChild(fallbackDiv);
+        };
+        
+        thumbDiv.appendChild(img);
+        
+        // Información del juego
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "game-info";
+        
+        const tituloElem = document.createElement("h3");
+        tituloElem.textContent = juego.titulo;
+        
+        const autorElem = document.createElement("div");
+        autorElem.className = "game-author";
+        autorElem.textContent = `👩‍💻 ${juego.autor}`;
+        
+        const descElem = document.createElement("div");
+        descElem.className = "game-description";
+        descElem.textContent = juego.descripcion;
+        
+        const hint = document.createElement("div");
+        hint.className = "play-hint";
+        hint.innerHTML = "🔗 Haz clic para jugar ➜";
+        
+        infoDiv.appendChild(tituloElem);
+        infoDiv.appendChild(autorElem);
+        infoDiv.appendChild(descElem);
+        infoDiv.appendChild(hint);
+        
+        cardLink.appendChild(thumbDiv);
+        cardLink.appendChild(infoDiv);
+        
+        return cardLink;
+    }
+
+    function cargarJuegos() {
+        if (!container) return;
+        container.innerHTML = ""; // limpiar
+        
+        if (juegos.length === 0) {
+            const emptyMsg = document.createElement("div");
+            emptyMsg.className = "empty-message";
+            emptyMsg.innerHTML = "<p>📭 Próximamente mostraremos los increíbles videojuegos hechos en Scratch por los alumnos.<br>¡Comparte tus creaciones con tu profesor!</p>";
+            container.appendChild(emptyMsg);
+            return;
+        }
+        
+        juegos.forEach(juego => {
+            if (juego.urlJuego && juego.titulo) {
+                const tarjeta = crearTarjeta(juego);
+                container.appendChild(tarjeta);
+            }
+        });
+    }
+
+    cargarJuegos();
+</script>
+
+<!-- Instrucciones para el profesor: 
+     1. Reemplaza las URLs de ejemplo en el array 'juegos' con los enlaces reales de Scratch.
+        Ejemplo correcto: "https://scratch.mit.edu/projects/650123456"
+     2. Cambia las miniaturas: puedes subir capturas de pantalla de los juegos a la misma carpeta 
+        que esta página y poner la ruta, ej: "thumbnails/laberinto.png".
+     3. Para mantener el estilo "anuario escolar", puedes modificar los colores en el CSS 
+        (variables o los tonos azul oscuro y dorado).
+-->
+</body>
+</html>
